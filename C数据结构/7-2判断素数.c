@@ -1,14 +1,18 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <math.h>
 
-void issu(n) {
+
+int issu(n) {
 int i;
-for (i=1; i<n; i++) {
-    if (n%i == 0) 
-        printf("No\n");
-    } 
-   //# else
-   //#     printf("Yes\n");
+int checked=1;
 
+if (n == 1)
+    return(0);
+for (i=2; i<=sqrt(n); i++) {
+    if (n%i == 0)
+        checked = 0;
+}
+    return(checked);
 }
 
 int main(void)  {
@@ -21,8 +25,10 @@ for (i=0; i<N; i++)    {
 }
 
 for (i=0; i<N; i++) {
-    //printf("%d\n", num[i]);
-    issu(num[i]);
+    if (issu(num[i]) == 0)
+        printf("No\n");
+    else
+        printf("Yes\n");
     }
 
 }
