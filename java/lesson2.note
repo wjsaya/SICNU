@@ -1,0 +1,74 @@
+/*
+练习内容包括，但不限于如下：
+1、     char类型及转义字符’\uxxxx’的使用、boolean类型的使用
+                char var1 = 'A';
+                char var2 = 'B';
+                boolean var3 = (var1 == var2);
+
+2、     系统默认的实数的类型是float还是double？
+                默认是double类型。
+                float var4=2.33f;
+
+3、     “+”号的使用
+                String str1 = "串1";
+                String str2 = "串2";
+                System.out.println(str1 + str2);
+
+4、     字符串与数值型数据之间的相互转换
+                int int1 = Integer.parseInt("123123");
+
+5、     键盘输入数据的基本操作
+        Scanner scan = new Scanner(System.in);
+        System.out.println("next方式接收：");
+        if (scan.hasNext()) {
+            String strnext = scan.next();
+            System.out.println("输入的数据为：" + strnext);
+
+6、     Next()与nextline区别的比较
+                next读取输入以空格，tab，等空白字符做分割。
+                nextline则以回车做分割。
+        Scanner scanNext = new Scanner(System.in);// 从键盘接收数据
+        System.out.println("next方式接收：");
+        // 判断是否还有输入
+        if (scanNext.hasNext()) {
+            String strnext = scanNext.next();
+                        // next方式接收字符串
+            System.out.println("输入的数据为：" + strnext);
+        }
+        scanNext.close();
+                
+                Scanner scanNextLine = new Scanner(System.in);
+                System.out.println("nextLine方式接收：");
+        if (scanNextLine.hasNextLine()) {
+            String strNextLine = scanNextLine.nextLine();
+            System.out.println("输入的数据为：" + strNextLine);
+        }
+        scanNextLine.close();
+
+7、     %运算符的使用
+                int int2 = 12;
+                int int3 = 5;
+                int int4 = int2 % int3;
+                System.out.printf("%d和%d取余为%d", int2, int3, int4);
+
+8、     比较运算符与逻辑运算符结合boolean类型变量使用，如：boolean  isTrue=a>b&&c<d
+                boolean var3 = (var1 == var2);
+
+
+9、     其他数据类型相关操作的复习
+                float类型也可以做%yunsuan1
+                float float2 = 12f;
+                float float3 = 5f;
+                float float4 = int2 % int3;
+                System.out.printf("%f和%f取余为%f\n", float2, float3, float4);
+
+10、其他运算符的复习
+                float float2 = 120f;
+                float float3 = 5f;
+                float float4 = float2 / float3;
+                System.out.printf("%f和%f的商为%f\n", float2, float3, float4);
+
+*/
+
+
+
