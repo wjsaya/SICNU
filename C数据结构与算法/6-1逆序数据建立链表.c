@@ -1,34 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define LEN sizeof(struct ListNode)
 
 struct ListNode {
     int data;
     struct ListNode *next;
 };
 
-struct ListNode *createlist()   {
-    struct ListNode *head, *p1, *p2;
-    char input;
-    head = NULL;
-    p2 = NULL;
-    printf("input numbers(# to stop)\n");
-    scanf("%c", &input);
-    while(input != '#') {
-        printf("%c\n",input);
-        p1 = malloc(LEN);
-        p1->data = input;
-        if(head == NULL)
-            head = p1;
-        else
-            p2->next = p1;
-        p2 = p1;
-        scanf("%d", &input);
-    }
-    p2->next = NULL;
-    return head;
-    }
-
+struct ListNode *createlist();
 
 int main()
 {
@@ -38,19 +16,43 @@ int main()
     for ( p = head; p != NULL; p = p->next )
         printf("%d ", p->data);
     printf("\n");
-
     return 0;
 }
 
-/* 浣犵殑浠ｇ爜灏嗚宓屽湪杩欓噷 */
+struct ListNode *createlist()
+{
+	int input;
+	struct ListNode *head=NULL, *in=NULL;
+	while(1)
+	{
+		scanf("%d", &input);
+		if(input == -1)	
+			return head;
+		in = (struct ListNode *)malloc(sizeof(struct ListNode));
+		in->data = input;
+		in->next = head;
+		head = in;
+	}
+}
+//把逆序需求改为了头插
 
+ 
+/*
+struct ListNode *createlist()
+{
+	int input;
+	struct ListNode *head=NULL, *in=NULL;
+	while(1)
+	{
+		scanf("%d", &input);
+		if(input == -1)	
+			return head;
+		in = (struct ListNode *)malloc(sizeof(struct ListNode));
+		in->data = input;
+		in->next = head;
+		head = in;
+	}
+}
+*/
 
-
-
-
-
-
-
-
-
-
+/* 你的代码将被嵌在这里 */

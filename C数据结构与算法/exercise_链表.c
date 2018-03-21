@@ -1,60 +1,65 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
-#defile TSIZE 45;
-
-struct film {
-    char title[TSIZE];
-    int rating;
-    struct film * next;
-    };
-
-int main(void)  {
-    struct film * head = NULL:
-    struct film * prev, * current;
-    char input[TSIZE];
-    puts("è¾“å…¥å½±ç‰‡title:");
-    while(gets(input) != NULL && input[0] != '\0')  {
-        current = (struct film *) malloc (sizeof (struct film));
-
-        if (head == NULL)
-            head = current;
-        else
-            prev->next = current;
-        
-        current->next = NULL;
-        strcpy(current->title, input);
-
-        puts("è¾“å…¥åˆ†æ•°<0-10>:");
-        scanf("%d", &current->rating);
-
-        while(getchar() != '\n')
-            continue;
-    
-        puts("è¾“å…¥ä¸‹ä¸€ä¸ªå½±ç‰‡åï¼ˆç›´æŽ¥å›žè½¦åœæ­¢ï¼‰ï¼š");
-        prev = current;
-    }
-    
-    if (head == NULL)
-        printf("no data");
-    else
-        printf("list:\n");
-
-    current = head;
-
-    while(current != NULL)  {
-        printf("movie:%s,ating:%d\n", current->title, current->rating);
-        current = current->next;
-        }
-    
-    current = head;
-    while(current != NULL)  {
-        free(current);
-        current = current->next;
-        }
-    printf("Bye;\n");
 
 
+typedef struct linklist
+{
+	int num;
+	struct linklist *next;	
+}linknode, *linkstp;
+
+linkstp head_insert (linkstp head, linkstp newnode)
+{
+	printf("Í·²å\n");
+	printf("%x --> %x\n", head, newnode);
+	newnode->next = head;
+	head = newnode;
+	return head;
+}
+
+linkstp tail_insert (linkstp head, linkstp newnode)
+{
+	printf("Î²²å\n");
+	if (head == NULL)
+		head = newnode;
+	else
+	{
+		linkstp temp = head;
+		while(temp->next != NULL)
+			temp = temp->next;
+		newnode->next = NULL;
+		temp->next= newnode;
+	}
+	return head;
+}
+
+void show(linkstp head)
+{
+	//puts("showing...");
+	linkstp temp = head;
+	while(temp)
+	{
+		printf("%d ", temp->num);
+		temp = temp->next;
+	}
+}
+int main(void)  
+{
+	int i =0;
+	linkstp head = NULL;
+	linkstp newnode = NULL;
+	srand(time(NULL));	//Ëæ»úÊýµÄÖÖ×Ó 
+	for(i=0; i<5; i++)
+	{
+		linkstp newnode = (linkstp)malloc(sizeof(linknode));
+		newnode->num = rand()%100; 
+		newnode->next = NULL; 
+		//head = head_insert(head, newnode);
+		head = tail_insert(head, newnode);
+		show(head);
+		getchar();
+	}
+	
     return 0;
 }
 
