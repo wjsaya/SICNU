@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int ElementType;
+typedef struct Node *PtrToNode;
+struct Node {
+    ElementType Data;
+    PtrToNode   Next;
+};
+typedef PtrToNode List;
+
+List Read(); /* 细节在此不表 */
+void Print( List L ); /* 细节在此不表 */
+
+
+List Reverse( List L );
+
+int main()
+{
+    List L1, L2;
+    L1 = Read();
+    L2 = Reverse(L1);
+    Print(L1);
+    Print(L2);
+    return 0;
+}
+
+List Read()
+{
+    int input;
+    struct Node  *head=NULL, *in=NULL;
+    while(1)
+    {
+        scanf("%d", &input);
+        if(input == -1) 
+                return head;
+        in = (List)malloc(sizeof(List));
+        in->Data = input;
+        in->Next = head;
+        head = in;
+    }
+}
+
+void Print( List L )
+{
+    struct Node *temp = L;
+    while(temp)
+    {
+            printf("%d ", temp->Data);
+            temp = temp->Next;
+    }
+}
+
+
+
+List Reverse(List L)
+{
+    while(L->Next != NULL)
+        L = L->next;        
+
+}
+/* 你的代码将被嵌在这里 */

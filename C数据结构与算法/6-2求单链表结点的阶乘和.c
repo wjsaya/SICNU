@@ -3,10 +3,10 @@
 
 typedef struct Node *PtrToNode;
 struct Node {
-    int Data; /* ´æ´¢½áµãÊı¾İ */
-    PtrToNode Next; /* Ö¸ÏòÏÂÒ»¸ö½áµãµÄÖ¸Õë */
+    int Data; /* ¿¿¿¿¿¿ */
+    PtrToNode Next; /* ¿¿¿¿¿¿¿¿¿¿ */
 };
-typedef PtrToNode List; /* ¶¨Òåµ¥Á´±íÀàĞÍ */
+typedef PtrToNode List; /* ¿¿¿¿¿¿¿ */
 
 int FactorialSum( List L );
 
@@ -27,4 +27,23 @@ int main()
     return 0;
 }
 
-/* ÄãµÄ´úÂë½«±»Ç¶ÔÚÕâÀï */
+/* ¿¿¿¿¿¿¿¿¿¿ */
+int FactorialSum( List L )
+{
+    int sum = 0;
+    while(L)
+    {
+        printf("%d ",L->Data);
+        sum += get(L->Data);
+        L = L->Next;
+    }
+    return sum;
+}
+
+int get(int i)
+{
+    int j, sum=1;
+    for(j=1;j<=i;j++)
+        sum *= j;
+    return sum;
+}
