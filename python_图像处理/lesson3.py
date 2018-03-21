@@ -41,3 +41,24 @@ if __name__ == '__main__':
 
 
 
+def get2(T = '',fileName = ''):
+        '''
+        传入t，用给定t进行二值化
+        '''
+        if len(fileName) == 0:
+                print('未传入图片名')
+                return False
+        print('开始二值化,T=' + str(T)
+        img = np.array(Image.open(fileName).convert('L'))
+        rows, cols = img.shape
+        for i in range(rows):
+                for j in range(cols):
+                        if (img[i, j] <= T):
+                                img[i, j] = 0
+                        else:
+                                img[i, j] = 1
+        plt.figure("T=" + str(T))
+        plt.imshow(img, cmap='gray')
+        plt.axis('off')
+        plt.show()
+
