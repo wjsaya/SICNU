@@ -83,9 +83,16 @@ class p61
    {
         int row, i=1;
         int line;
-        int [][]num;
-        num = new int[sum][sum];
-        
+        //int num[][];
+        //num = new int[sum][sum];
+        //分配n * n二维数组太浪费，分配够用即可。
+        //int num[][] = new int[ii][];
+        int[][] num = new int[sum][];
+        for( line = 0; line < sum; line++)
+            num[line] = new int[sum-line];
+                
+
+ 
         for(row=0 ; row <= sum-1; row++)
                     for(line = 0; line <= row; line++)
                         num[row - line][line] = i++;
@@ -93,7 +100,7 @@ class p61
         for(row = 0; row<= sum-1; row++)
         {
             for (line =0; line<=sum-1-row;line++)
-                System.out.print(num[row][line] + "\t");
+                System.out.printf("%4d", num[row][line]);
                  
             System.out.println();
         }
