@@ -65,21 +65,21 @@ List MakeEmpty()
 
 bool Insert( List L, ElementType X, Position P )
 {
+	printf();
 	int pos=0;
-	
 	if(L->Last == MAXSIZE-1)	//满
 	{
 		printf("FULL");
 		return false;
 	}
 	
-	else if(P<0 || P > L->Last+1)				//非法
+	else if(P<0 || P > (L->Last+1))				//非法
 	{
-		puts("ILLEGAL POSITION");
+		printf("ILLEGAL POSITION");
 		return false;
 	}
 		
-	for(pos = L->Last+1; pos > P; pos--){ //把pos定位到P; 
+	for(pos = L->Last+1; pos >= P; pos--){ //把pos定位到P; 
         L->Data[pos] = L->Data[pos-1];
     }  
     L->Data[pos] = X;
@@ -109,24 +109,12 @@ bool Delete( List L, Position P )
 		printf("POSITION %d EMPTY",P);
 		return false;
 	}
-	for(pos=P;pos<L->Last;pos++)
+	for(pos=P; pos < L->Last; pos++)
 			L->Data[pos] = L->Data[pos+1];
 
 	L->Last--;
 	return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
