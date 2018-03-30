@@ -3,12 +3,15 @@
 void sort(int n, int times, int l[])   {
     int i, j, temp;
     int time = 0;
+    
+    
     for (i=0; i<n; i++) 
     {
         if(time >= times)
-            break;
-        for(j=0;j<n-i;j++)  
-        {
+        //满足给定次数,退
+        	break;            
+        for(j=0;j<n-1;j++)
+        {//对比值 
             if(l[j] > l[j+1])   
             {
                 temp = l[j];
@@ -18,9 +21,10 @@ void sort(int n, int times, int l[])   {
         }
         time++;
     }
-    for (i=0; i<n; i++)
-        printf("%d ",l[i]);
-    printf("\n");
+    
+    
+
+    
 }
 
 int main(void)  {
@@ -31,9 +35,9 @@ int main(void)  {
     for(i=0; i<n; i++)  {
         scanf("%d", &lis[i]);
     }
-    for (i=0; i<n; i++)
-        printf("%d ",lis[i]);
-    printf("\n---------------------------------------\n");
 
     sort(n, times, lis);
+	for (i=0; i<n-1; i++)
+       	printf("%d#",lis[i]);
+    printf("%d",lis[i]);
 }
