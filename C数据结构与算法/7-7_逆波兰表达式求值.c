@@ -2,15 +2,11 @@
 #include<stdlib.h>
 #include<string.h>
 
-
-
-
 int MAXSIZE = 1000;
-int t;                      //栈顶指针
+int t; 
 int S[1000];
 
 void pushin(int x)
-//入栈
 {
     S[++t] = x;
 }
@@ -20,45 +16,38 @@ int get()
     return S[t--];
 }
 
-int pop()
-
-int isEmpty()
-{
-    return t == 0;
-}
-
 
 int main(void)
 {
     int a1, a2;
+    int last;
     t = 0;
     char input[100];
-    scanf("%s", input);
-    while(t != 0)
+     
+    while(scanf("%s", input) != EOF)
     {
-        if(input[0] == '+')
-        {
-            a1 = get();
-            a2 = get();
-            pushin(a1+a2);
-        }
-        else if(input[0] == '+')
-        {
-            a1 = get();
-            a2 = get();
-            pushin(a1+a2);
-        }
-        else if(input[0] == '+')
-        {
-            a1 = get();
-            a2 = get();
-            pushin(a1+a2);
-        }
-        
-        else
+    	
+    	if (input[0] != '+' && input[0] != '-' && input[0] != '*' )
             pushin(atoi(input));
-    }
-
-    printf("%d",get());
+    	else 
+		{
+	        a1 = get();
+	        a2 = get();
+	        switch (input[0])
+	        {
+	        	case '+':
+	        		last = a1 + a2;
+	        		break;
+	        	case '-':
+	        		last = a2 - a1;
+	        		break;
+	        	case '*':
+	        		last = a1 * a2;
+	        		break;        		
+	        }
+			pushin(last);
+		}
+	}
+	printf("%d\n", get());
     return 0;
 }
