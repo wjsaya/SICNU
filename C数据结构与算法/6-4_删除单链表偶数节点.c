@@ -12,8 +12,9 @@ void printlist( struct ListNode *head )
 {
      struct ListNode *p = head;
      while (p) {
-     //      printf("%d:%d\n", p, p->data);
-           printf("%d ",p->data);
+           printf("%d:%d\n", p, p->data);
+          // getchar();
+        //   printf("%d ",p->data);
            p = p->next;
      }
 }
@@ -27,6 +28,9 @@ int main()
 
     return 0;
 } 
+
+
+
 
 struct ListNode *createlist()
 {
@@ -57,34 +61,22 @@ struct ListNode *deleteeven( struct ListNode *head )
 {
 	struct ListNode *newl, *re;
 	newl = (struct ListNode *)malloc(sizeof(struct ListNode));
+	newl->next = NULL;
 	re = newl;
-	while(head)
+	while(head != NULL)
 	{
+		
 		if(head->data % 2 != 0)
-		{
-			//printf("%d\n",pre->data);
-			newl->next = head;
-			newl = newl->next;
+		{ //printf("teeven:%d:%d\n", head, head->data);
+				newl->next = head;
+				newl = newl->next;
 		}
-		head = head->next; 
+		
+		head = head->next;
+		newl->next = NULL;
 	}
 	return re->next;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

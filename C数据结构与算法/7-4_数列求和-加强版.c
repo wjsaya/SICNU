@@ -5,28 +5,28 @@
 输出格式：
 在一行中按照“s = 对应的和”的格式输出。
 */
-#include<stdio.h>
-long long get_each(long long time)
-{
 
-	long long i, sum=1;
-	for(i=0;i<time;i++)
-		sum *= 10;
-	sum = sum/10;
-	return sum;
-}
-
-int main(void)
+#include<stdio.h> 
+int main()
 {
-	long long a, i, n, sum=0, each, sum_a=0;
-	scanf("%lld %lld", &a, &n);
+    int i,a,x;
+    int b[100005];
+    long long d = 0;
+	scanf("%d %d", &a, &x);
 	
-	for(i=1;i<=n;i++)
-	{
-		each = get_each(i);
-		sum += each*a;
-		sum_a += sum;
-	}
-	printf("%lld\n",sum_a);
-	return 0;
+	
+    for(i=0;i<x;i++)
+    {
+        d += (x-i)*a;
+        b[i]=d%10;
+        d/=10;
+    }
+    if(d)
+		printf("%d", d);
+	//cout<<d;
+    for(i=x-1;i>=0;i--)
+		printf("%d", b[i]);
+	
+    if(x==0)
+		printf("0");
 }
