@@ -1,7 +1,6 @@
 from PIL import Image
 import numpy as np
 from matplotlib import pyplot as plt
-import pylab 
 
 def get_details(fileName = ''):
         '''
@@ -64,9 +63,7 @@ def otsu(fileName = ''):
                 return False
         im = Image.open(fileName)
         im_gray = im.convert('L') 
-    #    img = np.array(Image.open(fileName).convert('L'))
         size = im_gray.size[0] * im_gray.size[1]
-#        print(size)
 
         max_g = 0
         suitable_th = 0
@@ -74,7 +71,6 @@ def otsu(fileName = ''):
         im_gray = np.array(im_gray)     #图像转数组
 
         for threshold in range(0, 255, 1):
-       #         print(im_gray > threshold)
                 bin_img = im_gray > threshold
                 bin_img_inv = im_gray <= threshold
                 fore_pix = np.sum(bin_img)
@@ -89,21 +85,20 @@ def otsu(fileName = ''):
                 u0 = float(np.sum(im_gray * bin_img)) / fore_pix
                 w1 = float(back_pix) / im_gray.size
                 u1 = float(np.sum(im_gray * bin_img_inv)) / back_pix
-                # intra-class variance
                 g = w0 * w1 * (u0 - u1) * (u0 - u1)
                 if g > max_g:
                         max_g = g
                         suitable_th = threshold
         return suitable_th
- #       print(np.sum(im_gray))
-#        print(fore_pix)
- #       print(back_pix)
         
 
 
 
 
 def gethist(fileName = ''):
+        '''
+        输出指定文件的直方图
+        '''
         im = pylab.array(Image.open(fileName).convert('L'))
         processName = fileName + '直方图'
         plt.figure(processName)
@@ -113,14 +108,9 @@ def gethist(fileName = ''):
 
 
 
-      #  pylab.hist(im.flatten(),1)
-     #   pylab.show()
-
-
 
 if __name__ == '__main__':
         fileName = './lena.png'
-        #do2(200, fileName)
         #gethist(fileName)
         T = otsu(fileName)
         do2(T, fileName)
