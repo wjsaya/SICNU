@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 from matplotlib import pyplot as plt
+import time
 
 def get_details(fileName = ''):
         '''
@@ -16,6 +17,9 @@ def get_details(fileName = ''):
         #im.save('lena_rgb.jpg')
 
 def disRGB():
+        '''
+        输出r,g,b三通道的图
+        '''
    NO = 0
 
 #   int(r[NO]),int(0),int(0)
@@ -42,20 +46,29 @@ def disRGB():
    b_im.show()
     
 def toGray(fileName=''):
-    #img = Image.open(fileName)
+'''
+传入fileName,返回对应的灰度图
+'''
     img = Image.open(fileName)
     length, width = img.size
 
-    r_im = Image.new("RGB",(length, width))
-    g_im = Image.new("RGB",(length, width))
-    b_im = Image.new("RGB",(length, width))
-    r = getRGB(sw='r', fileName=fileName)
-    g = getRGB(sw='g', fileName=fileName)
-    b = getRGB(sw='b', fileName=fileName)
-    
-    Gray = R*0.299 + G*0.587 + B*0.114
+    print('开始转换灰度图' + str(time.time()))
+    gray_im = Image.new("RGB",(length, width))
+    gray_list = getRGB(sw='gray', fileName=fileName)
+    NO = 0
+    for i in range(0, length):
+        for j in range(0, width):
+            gray_im.putpixel((i, j), (gray_list[NO], gray_list[NO], gray_list[NO]))    #将rgb转化为像素
+            NO += 1
+    #gray_im.show()
+    print('灰度图转换完成' + str(time.time()))
+    return(gray_im)
   
 def getRGB(sw='', fileName=''):
+'''
+传入两个参数,sw为r,g,b,gray四选一,表示通道
+fileName为想要打开的文件
+'''
     img = Image.open(fileName)
     im = img.load()
     length, width = img.size
@@ -63,23 +76,26 @@ def getRGB(sw='', fileName=''):
     r_list = []
     g_list = []
     b_list = []
+    gray_list = []
     
+    print('开始提取灰度' + str(time.time()))
     for i in range(0, length):
         for j in range(0, width):
             r, g, b = im[i, j]
             r_list.append(r)
             g_list.append(g)
             b_list.append(b)
+            gray_list.append((r*19595 + g*38469 + b*7472) >> 16)
 
+    print('灰度提取完毕' + str(time.time()))
     if (sw == 'r'):
         return r_list
-    #    te = input
     if (sw == 'g'):
         return g_list
-   #     te = input
     if (sw == 'b'):
         return b_list
-    #    te = input    
+    if (sw == 'gray'):
+        return gray_list
     return 0
 
 def do2(T = '',fileName = ''):
@@ -89,7 +105,7 @@ def do2(T = '',fileName = ''):
         if len(fileName) == 0:
                 print('未传入图片名')
                 return False
-        print('开始二值化,T=' + str(T))
+        print('开始二值化,T=' + str(T) + str(time.time()))
         img = np.array(Image.open(fileName).convert('L'))
         rows, cols = img.shape
         for i in range(rows):
@@ -128,12 +144,13 @@ def otsu(fileName = ''):
                 print('otsu函数，未接收到图片名')
                 return False
         im = Image.open(fileName)
-        im_gray = im.convert('L') 
+        #im_gray = im.convert('L')
+        im_gray = toGray(fileName = fileName)
         size = im_gray.size[0] * im_gray.size[1]
 
         max_g = 0
         suitable_th = 0
-
+        print('开始尝试获取T' + str(time.time()))
         im_gray = np.array(im_gray)     #图像转numpy中ndarray
 
         for threshold in range(0, 255, 1):
@@ -187,8 +204,8 @@ def gethist(fileName = ''):
 if __name__ == '__main__':
         fileName = './lena.png'
         #gethist(fileName)
-        toGray(fileName)
- #       T = otsu(fileName)
- #       do2(T, fileName)
+ #       gray_im = toGray(fileName)
+        T = otsu(fileName)
+        do2(T, fileName)
 
 
