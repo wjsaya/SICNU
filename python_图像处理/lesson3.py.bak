@@ -15,72 +15,37 @@ def get_details(fileName = ''):
         #im = Image.merge("RGB", (g,r,b))       #rgb翻转
         #im.save('lena_rgb.jpg')
 
-def disRGB():
-   NO = 0
-
-#   int(r[NO]),int(0),int(0)
-   
-   for i in range(0,length):
-       for j in range(0,width):
-           r_im.putpixel((i,j),(  ))#rgb转化为像素
-           NO += 1
-   r_im.show()
-
-    
-   NO = 0
-   for i in range(0,length):
-       for j in range(0,width):
-           g_im.putpixel((i,j),(int(0),int(g[NO]),int(0)))#rgb转化为像素
-           NO += 1
-   g_im.show()
-    
-   NO = 0
-   for i in range(0,length):
-       for j in range(0,width):
-           b_im.putpixel((i,j),(int(0),int(0),int(b[NO])))#rgb转化为像素
-           NO += 1
-   b_im.show()
-    
 def toGray(fileName=''):
     #img = Image.open(fileName)
-    img = Image.open(fileName)
-    length, width = img.size
+    getRGB(sw=1, fileName=fileName)
 
-    r_im = Image.new("RGB",(length, width))
-    g_im = Image.new("RGB",(length, width))
-    b_im = Image.new("RGB",(length, width))
-    r = getRGB(sw='r', fileName=fileName)
-    g = getRGB(sw='g', fileName=fileName)
-    b = getRGB(sw='b', fileName=fileName)
-    
-    Gray = R*0.299 + G*0.587 + B*0.114
-  
-def getRGB(sw='', fileName=''):
+def getRGB(sw=4, fileName=''):
     img = Image.open(fileName)
     im = img.load()
     length, width = img.size
 
-    r_list = []
-    g_list = []
-    b_list = []
-    
-    for i in range(0, length):
-        for j in range(0, width):
+    r_list = g_list = b_list = []
+    for i in range(length):
+        for j in range(width):
             r, g, b = im[i, j]
-            r_list.append(r)
-            g_list.append(g)
-            b_list.append(b)
+            r_list.append((r, 0, 0))
+            g_list.append((0, g, 0))
+            #b_list.append((0, 0, b))
+            print(g_list)
+            te = input()
 
-    if (sw == 'r'):
-        return r_list
-    #    te = input
-    if (sw == 'g'):
-        return g_list
-   #     te = input
-    if (sw == 'b'):
-        return b_list
-    #    te = input    
-    return 0
+    #  print(length, width)
+    if (sw == 1):
+        print(len(r_list))
+        te = input
+    elif (sw == 2):
+        print(g_list)
+        te = input
+    elif (sw == 3):
+        print(b_list)
+        te = input
+    else:
+        pass
 
 def do2(T = '',fileName = ''):
         '''
@@ -190,5 +155,4 @@ if __name__ == '__main__':
         toGray(fileName)
  #       T = otsu(fileName)
  #       do2(T, fileName)
-
 
