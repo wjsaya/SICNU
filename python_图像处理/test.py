@@ -3,26 +3,39 @@ import numpy as np
 from matplotlib import pyplot as plt
 import time
 
-def toGray(fileName=''):
+def toGray(TYPE='', fileName=''):
+    start_time = time.time()
     '''
     传入fileName,返回对应的灰度图
     '''
     img = Image.open(fileName)
     length, width = img.size
 
-    print('开始转换灰度图' + str(time.time()))
     gray_im = Image.new("RGB",(length, width))
     gray_list = getRGB(sw='gray', fileName=fileName)
+    if(TYPE == 'reverse'):
+        gray_im_r = Image.new("RGB",(length, width))
     NO = 0
     for i in range(0, length):
         for j in range(0, width):
-            gray_im.putpixel((i, j), (gray_list[NO], gray_list[NO], gray_list[NO]))    #将rgb转化为像素
+            if(TYPE == 'reverse'):
+                gray_im_r.putpixel((i, j), (255-gray_list[NO], 255-gray_list[NO], 255-gray_list[NO]))    #将rgb转化为像素
+            
+            if(TYPE == 'gray'):
+                gray_im.putpixel((i, j), (gray_list[NO], gray_list[NO], gray_list[NO]))    #将rgb转化为像素
+            
             NO += 1
     #gray_im.show()
-    print('灰度图转换完成' + str(time.time()))
+    print('灰度图转换耗时\t\t' + str(time.time() - start_time))
+
+    
+    if(TYPE == 'reverse'):
+        gray_im_r.show()
+  #  gray_im.show()
     return(gray_im)
   
 def getRGB(sw='', fileName=''):
+    start_time = time.time()
     '''
     传入两个参数,sw为r,g,b,gray四选一,表示通道
     fileName为想要打开的文件
@@ -36,7 +49,6 @@ def getRGB(sw='', fileName=''):
     b_list = []
     gray_list = []
     
-    print('开始提取灰度' + str(time.time()))
     for i in range(0, length):
         for j in range(0, width):
             r, g, b = im[i, j]
@@ -49,7 +61,7 @@ def getRGB(sw='', fileName=''):
             if (sw == 'gray'):
                 gray_list.append((r*19595 + g*38469 + b*7472) >> 16)
 
-    print('灰度提取完毕' + str(time.time()))
+    print('灰度提取耗时\t\t' + str(time.time() - start_time))
     if (sw == 'r'):
         return r_list
     if (sw == 'g'):
@@ -61,13 +73,14 @@ def getRGB(sw='', fileName=''):
     return 0
 
 def do2(T = '',fileName = ''):
+        start_time = time.time()
         '''
         传入t，用给定t进行二值化
         '''
         if len(fileName) == 0:
                 print('未传入图片名')
                 return False
-        print('开始二值化,T=' + str(T) + str(time.time()))
+        #print('开始二值化,T=' + str(T) + + "\t\t" +str(time.time()))
         img = np.array(Image.open(fileName).convert('L'))
         rows, cols = img.shape
         for i in range(rows):
@@ -81,10 +94,12 @@ def do2(T = '',fileName = ''):
         plt.figure(processName)
         plt.imshow(img, cmap='gray')
         plt.axis('off')
+        print('二值化耗时\t\t' + str(time.time() - start_time))
         plt.show()
 
 
 def otsu(fileName = ''):
+        start_time = time.time()
         '''
         类判别分析法（otsu）求二值化的阈值T
 
@@ -107,20 +122,27 @@ def otsu(fileName = ''):
                 return False
         im = Image.open(fileName)
         #im_gray = im.convert('L')
-        im_gray = toGray(fileName = fileName)
+        im_gray = toGray(TYPE='gray', fileName = fileName)
         size = im_gray.size[0] * im_gray.size[1]
 
         max_g = 0
         suitable_T = 0
-        print('开始尝试获取T' + str(time.time()))
         im_gray = np.array(im_gray)     #图像转numpy中ndarray
-
+        time1 = 0#np_sum耗时
+        time3 = 0#计算耗时
         for loop_T in range(0, 255):
+
+                count_start = time.time()
+
                 fore_pix_list = (im_gray > loop_T)
                 back_pix_list = (im_gray <= loop_T)
                 #大于和小于等于给定临时T，通过比较获取两个大于或者小于等于临时T的nparray，两个数组的组成元素为True和False
                 fore_pix = np.sum(fore_pix_list)
                 back_pix = np.sum(back_pix_list)
+
+                time1 += (time.time() - count_start)
+                count_start = time.time()
+
                 #统计True个数，即当前大于或者小于等于T的像素点个数
                 if 0 is fore_pix:
                 #如果前景中的像素点统计为0，由于T从0-255递增，如果没有大于T最大值，即255的像素点时，即代表遍历完毕。
@@ -128,6 +150,8 @@ def otsu(fileName = ''):
                 if 0 is back_pix:
                 #如果背景像素点为0个，即没有小于临时T的像素点，跳过本轮，让T自增1继续进行统计
                         continue
+
+
                 w0 = float(fore_pix) / im_gray.size
                 #求前景所有像素点个数/所有像素点的比例
                 u0 = float(np.sum(im_gray * fore_pix_list)) / fore_pix
@@ -136,14 +160,22 @@ def otsu(fileName = ''):
                 w1 = float(back_pix) / im_gray.size
                 u1 = float(np.sum(im_gray * back_pix_list)) / back_pix
                 g = w0 * w1 * (u0 - u1) * (u0 - u1)
+
+                time3 += (time.time() - count_start)
+                count_start = time.time()
+
                 #套用公式，求出类间方差g
                 if g > max_g:
                 #过滤出最大的类间方差，并提取对应的T
                         max_g = g
                         suitable_T = loop_T
 
+
                 
-        print('T已得到' + str(time.time()))
+        print('获取T耗时\t\t' + str(time.time() - start_time))
+        print(time1)
+        print(time3)
+
         return suitable_T
         #返回最大的T，即为OTSU法求出的最合适T
         
@@ -152,6 +184,7 @@ def otsu(fileName = ''):
 if __name__ == '__main__':
         fileName = './lena.png'
         T = otsu(fileName)
-#        do2(T, fileName)
+        #toGray(TYPE='reverse', fileName = fileName)
+        do2(T, fileName)
 
 
