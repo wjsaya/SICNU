@@ -40,10 +40,14 @@ def getRGB(sw='', fileName=''):
     for i in range(0, length):
         for j in range(0, width):
             r, g, b = im[i, j]
-            r_list.append(r)
-            g_list.append(g)
-            b_list.append(b)
-            gray_list.append((r*19595 + g*38469 + b*7472) >> 16)
+            if (sw == 'r'):
+                r_list.append(r)
+            if (sw == 'g'):
+                g_list.append(g)
+            if (sw == 'b'):
+                b_list.append(b)
+            if (sw == 'gray'):
+                gray_list.append((r*19595 + g*38469 + b*7472) >> 16)
 
     print('灰度提取完毕' + str(time.time()))
     if (sw == 'r'):
@@ -118,10 +122,10 @@ def otsu(fileName = ''):
                 fore_pix = np.sum(fore_pix_list)
                 back_pix = np.sum(back_pix_list)
                 #统计True个数，即当前大于或者小于等于T的像素点个数
-                if 0 == fore_pix:
+                if 0 is fore_pix:
                 #如果前景中的像素点统计为0，由于T从0-255递增，如果没有大于T最大值，即255的像素点时，即代表遍历完毕。
                         break
-                if 0 == back_pix:
+                if 0 is back_pix:
                 #如果背景像素点为0个，即没有小于临时T的像素点，跳过本轮，让T自增1继续进行统计
                         continue
                 w0 = float(fore_pix) / im_gray.size
@@ -137,6 +141,9 @@ def otsu(fileName = ''):
                 #过滤出最大的类间方差，并提取对应的T
                         max_g = g
                         suitable_T = loop_T
+
+                
+        print('T已得到' + str(time.time()))
         return suitable_T
         #返回最大的T，即为OTSU法求出的最合适T
         
@@ -145,6 +152,6 @@ def otsu(fileName = ''):
 if __name__ == '__main__':
         fileName = './lena.png'
         T = otsu(fileName)
-        do2(T, fileName)
+#        do2(T, fileName)
 
 
