@@ -77,7 +77,7 @@ class im_obj:
             r_list = self.getRGB(sw='r')
             g_list = self.getRGB(sw='g')
             b_list = self.getRGB(sw='b')
-        
+
         if kw == 'gray':
             for i in range(0, self.length):
                 for j in range(0, self.width):
@@ -92,7 +92,37 @@ class im_obj:
 #        reverse_im.show()
         return(reverse_im)
 
-def gray_reverse(fileName):
+    def fdxx(self, fileName = '', sw=125):
+        '''
+        传入img,传入阈值,默认125
+        返回分段线性变换结果
+        '''
+        if (type(fileName) != str):
+            img = fileName
+        else:
+            img = Image.open(fileName)
+        length, width = img.size
+        fdxx_im = Image.new("RGB",(length, width))
+        gray_list = self.getRGB(sw='gray')
+        NO = 0
+        for i in range(0, length):
+            for j in range(0, width):
+                    if(gray_list[NO] <= sw):
+                        fdxx_im.putpixel((i, j), (12, 12, 12))    #将rgb转化为像素
+                    else:
+                        fdxx_im.putpixel((i, j), (255, 255, 255))    #将rgb转化为像素
+                    NO += 1
+       # fdxx_im.show()
+        return(fdxx_im)
+
+    def fdxx_change(self, gray_img, fdxx_frame, sw=100):
+        global reverse_label_img
+        reverse_label_img['image'] = self.fdxx(fileName=gray_img, sw=sw)
+        reverse_label_img.pack()
+
+
+
+def dis_gray_reverse(fileName):
         new_obj = im_obj(fileName)
         length = new_obj.length
         hight = new_obj.width
@@ -121,12 +151,57 @@ def gray_reverse(fileName):
 
         root.mainloop()
 
+def FDXX(fileName):
+        new_obj = im_obj(fileName)
+        length = new_obj.length
+        hight = new_obj.width
+
+        root = tkinter.Tk(className = "灰度图分段线性变换")
+        root.geometry(str(length) + "x" + str(hight))
+
+        gray = new_obj.toGray()
+
+        gray_img = ImageTk.PhotoImage(gray)
+        fdxx_img = ImageTk.PhotoImage(new_obj.fdxx(gray, sw=100))
+
+        gray_frame = tkinter.LabelFrame(width = (length/2 + 50), height = (hight/2 + 50), font=("微软雅黑", 15, "bold"), text = '灰度图')
+        fdxx_frame = tkinter.LabelFrame(width = (length/2 + 50), height = (hight/2 + 50), font=("微软雅黑", 15, "bold"), text = '分段线性')
+        fdxx_buttom_frame = tkinter.LabelFrame(width = (length/2 + 50), height = (100), font=("微软雅黑", 15, "bold"), text = '分段线性更改按钮')
+
+        gray_frame.pack_propagate(0)
+        fdxx_frame.pack_propagate(0)
+        fdxx_buttom_frame.pack_propagate(0)
+        #frame根据内容自动调整大小,改为0关闭
+
+ #       gray_frame.pack(expand='yes',  side = "left")
+ #       fdxx_frame.pack(expand='yes',  side = "right")
+ #       fdxx_buttom_frame.pack(expand='yes',  side = "bottom")
+        gray_frame.grid(row=0, column=0)
+        fdxx_frame.grid(row=0, column=1)
+        fdxx_buttom_frame.grid(row=1, column=1)
+
+        gray_label_img = tkinter.Label(gray_frame, width=length/2, height=hight/2, image = gray_img)
+        reverse_label_img = tkinter.Label(fdxx_frame, width=length/2, height=hight/2, image = fdxx_img)
+
+        gray_label_img.pack()
+        reverse_label_img.pack()
+
+        fdxx100 = tkinter.Button(fdxx_buttom_frame, text='Button100', command=lambda : new_obj.fdxx_change(gray, fdxx_frame, sw=100))
+        fdxx150 = tkinter.Button(fdxx_buttom_frame, text='Button150', command=lambda : new_obj.fdxx_change(gray, fdxx_frame, sw=150))
+        fdxx200 = tkinter.Button(fdxx_buttom_frame, text='Button200', command=lambda : new_obj.fdxx_change(gray, fdxx_frame, sw=200))
+
+        fdxx100.grid(row=0, column=0)
+        fdxx150.grid(row=0, column=2)
+        fdxx200.grid(row=0, column=4)
+        root.mainloop()
+
     
 if __name__ == '__main__':
         '''
         灰度图反转并对比显示
         '''
         fileName = './lena.png'
-        gray_reverse(fileName)
+#        dis_gray_reverse(fileName)
+        FDXX(fileName)
 
 
