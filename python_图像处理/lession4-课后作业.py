@@ -5,6 +5,13 @@ from matplotlib import pyplot as plt
 import tkinter
 import time
 
+
+
+
+reverse_label_img = tkinter.Label()
+
+		
+		
 class im_obj:
     def __init__(self, file):
         self.Name = file
@@ -115,13 +122,6 @@ class im_obj:
        # fdxx_im.show()
         return(fdxx_im)
 
-    def fdxx_change(self, gray_img, fdxx_frame, sw=100):
-        global reverse_label_img
-        reverse_label_img['image'] = self.fdxx(fileName=gray_img, sw=sw)
-        reverse_label_img.pack()
-
-
-
 def dis_gray_reverse(fileName):
         new_obj = im_obj(fileName)
         length = new_obj.length
@@ -186,14 +186,28 @@ def FDXX(fileName):
         gray_label_img.pack()
         reverse_label_img.pack()
 
-        fdxx100 = tkinter.Button(fdxx_buttom_frame, text='Button100', command=lambda : new_obj.fdxx_change(gray, fdxx_frame, sw=100))
-        fdxx150 = tkinter.Button(fdxx_buttom_frame, text='Button150', command=lambda : new_obj.fdxx_change(gray, fdxx_frame, sw=150))
-        fdxx200 = tkinter.Button(fdxx_buttom_frame, text='Button200', command=lambda : new_obj.fdxx_change(gray, fdxx_frame, sw=200))
+		
+		
+		
+		
+		
+        fdxx100 = tkinter.Button(fdxx_buttom_frame, text='Button100', command=lambda : fdxx_change(new_obj, sw=100))
+        fdxx150 = tkinter.Button(fdxx_buttom_frame, text='Button150', command=lambda : fdxx_change(new_obj, sw=150))
+        fdxx200 = tkinter.Button(fdxx_buttom_frame, text='Button200', command=lambda : fdxx_change(new_obj, sw=200))
 
-        fdxx100.grid(row=0, column=0)
+        #fdxx100.grid(row=0, column=0)
+        fdxx100.pack()
         fdxx150.grid(row=0, column=2)
         fdxx200.grid(row=0, column=4)
         root.mainloop()
+
+def fdxx_change(new_obj, sw=100):
+   # global reverse_label_img
+    print(sw)
+    reverse_label_img['image'] = new_obj.toGray()
+    #reverse_label_img['image'] = new_obj.fdxx(gray_img, sw=sw)
+	# reverse_label_img.pack()
+
 
     
 if __name__ == '__main__':

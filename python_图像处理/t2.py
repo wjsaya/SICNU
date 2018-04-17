@@ -18,7 +18,7 @@ fdxx_buttom_frame.grid(row=0, column=0)
 
 
 gray_img = ImageTk.PhotoImage(Image.open('./1 (2).jpg'))
-gray_label_img = tkinter.Label(fdxx_buttom_frame, image = gray_img)
+gray_label_img = tkinter.Label(fdxx_buttom_frame, width = 200, height = 200, image = gray_img)
 gray_label_img.pack()
 
 
