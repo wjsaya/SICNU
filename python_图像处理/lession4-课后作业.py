@@ -5,18 +5,12 @@ from matplotlib import pyplot as plt
 import tkinter
 import time
 
-
-
-
-reverse_label_img = tkinter.Label()
-
-		
-		
 class im_obj:
     def __init__(self, file):
         self.Name = file
         self.im_obj = Image.open(file)
         self.length, self.width = self.im_obj.size
+        self.getGray = self.toGray
 
     def getRGB(self, sw=''):
         start_time = time.time()
@@ -57,7 +51,10 @@ class im_obj:
         '''
         传入fileName,返回对应的灰度图
         '''
-       
+        if type(self.getGray) is Image.Image:
+            print("已有灰度图")
+            return self.getGray
+
         gray_im = Image.new("RGB",(self.length, self.width))
         gray_list = self.getRGB(sw='gray')
         NO = 0
@@ -68,6 +65,7 @@ class im_obj:
 #        print('灰度图转换耗时\t\t' + str(time.time() - start_time))
 #        gray_im.show()
  #       gray_im.show()
+        self.getGray = gray_im
         return(gray_im)
 
 
@@ -157,7 +155,7 @@ def FDXX(fileName):
         hight = new_obj.width
 
         root = tkinter.Tk(className = "灰度图分段线性变换")
-        root.geometry(str(length) + "x" + str(hight))
+        root.geometry(str(length) + "x" + str(int(hight / 1.5)))
 
         gray = new_obj.toGray()
 
@@ -173,42 +171,31 @@ def FDXX(fileName):
         fdxx_buttom_frame.pack_propagate(0)
         #frame根据内容自动调整大小,改为0关闭
 
- #       gray_frame.pack(expand='yes',  side = "left")
- #       fdxx_frame.pack(expand='yes',  side = "right")
- #       fdxx_buttom_frame.pack(expand='yes',  side = "bottom")
-        gray_frame.grid(row=0, column=0)
-        fdxx_frame.grid(row=0, column=1)
-        fdxx_buttom_frame.grid(row=1, column=1)
+        gray_frame.grid(row=0, column=1)
+        fdxx_frame.grid(row=0, column=2)
+        fdxx_buttom_frame.grid(row=1, column=2)
 
         gray_label_img = tkinter.Label(gray_frame, width=length/2, height=hight/2, image = gray_img)
         reverse_label_img = tkinter.Label(fdxx_frame, width=length/2, height=hight/2, image = fdxx_img)
 
         gray_label_img.pack()
         reverse_label_img.pack()
-
-		
-		
-		
-		
-		
-        fdxx100 = tkinter.Button(fdxx_buttom_frame, text='Button100', command=lambda : fdxx_change(new_obj, sw=100))
-        fdxx150 = tkinter.Button(fdxx_buttom_frame, text='Button150', command=lambda : fdxx_change(new_obj, sw=150))
-        fdxx200 = tkinter.Button(fdxx_buttom_frame, text='Button200', command=lambda : fdxx_change(new_obj, sw=200))
+        fdxx100 = tkinter.Button(fdxx_buttom_frame, width=10, height=2, text='100', command=lambda : fdxx_change(new_obj, reverse_label_img, sw=100))
+        fdxx150 = tkinter.Button(fdxx_buttom_frame, width=10, height=2, text='150', command=lambda : fdxx_change(new_obj, reverse_label_img, sw=150))
+        fdxx200 = tkinter.Button(fdxx_buttom_frame, width=10, height=2, text='200', command=lambda : fdxx_change(new_obj, reverse_label_img, sw=200))
 
         #fdxx100.grid(row=0, column=0)
-        fdxx100.pack()
-        fdxx150.grid(row=0, column=2)
-        fdxx200.grid(row=0, column=4)
+        fdxx100.grid(row=0, column=0)
+        fdxx150.grid(row=0, column=6)
+        fdxx200.grid(row=0, column=10)
         root.mainloop()
 
-def fdxx_change(new_obj, sw=100):
-   # global reverse_label_img
-    print(sw)
-    reverse_label_img['image'] = new_obj.toGray()
-    #reverse_label_img['image'] = new_obj.fdxx(gray_img, sw=sw)
-	# reverse_label_img.pack()
-
-
+def fdxx_change(new_obj, reverse_label_img, sw=100):
+    reverse_label = new_obj.fdxx(new_obj.toGray(), sw=sw)
+    #reverse_label = Image.open('./1 (1).jpg')
+    reverse_label2 = ImageTk.PhotoImage(reverse_label)
+    reverse_label_img.configure(image=reverse_label2)
+    NOTHING.pack()
     
 if __name__ == '__main__':
         '''
@@ -216,6 +203,6 @@ if __name__ == '__main__':
         '''
         fileName = './lena.png'
 #        dis_gray_reverse(fileName)
-        FDXX(fileName)
+#        FDXX(fileName)
 
 
