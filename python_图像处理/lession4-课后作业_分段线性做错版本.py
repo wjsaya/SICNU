@@ -153,70 +153,49 @@ def FDXX(fileName):
         new_obj = im_obj(fileName)
         length = new_obj.length
         hight = new_obj.width
-        
-            #fdxx_ops(new_obj, 100, 190, 130, 150, 100, 200)
-            
+
         root = tkinter.Tk(className = "灰度图分段线性变换")
         root.geometry(str(length) + "x" + str(int(hight / 1.5)))
 
         gray = new_obj.toGray()
+
         gray_img = ImageTk.PhotoImage(gray)
-        fdxx_img1 = fdxx_ops(new_obj, 10, 190, 130, 150, 100, 200)
-        fdxx_img = ImageTk.PhotoImage(fdxx_img1)
+        fdxx_img = ImageTk.PhotoImage(new_obj.fdxx(gray, sw=100))
 
         gray_frame = tkinter.LabelFrame(width = (length/2 + 50), height = (hight/2 + 50), font=("微软雅黑", 15, "bold"), text = '灰度图')
         fdxx_frame = tkinter.LabelFrame(width = (length/2 + 50), height = (hight/2 + 50), font=("微软雅黑", 15, "bold"), text = '分段线性')
-        fdxx_buttom_frame = tkinter.LabelFrame(width = (length/2 + 50), height = (100), font=("微软雅黑", 15, "bold"), text = '分段线性值')
+        fdxx_buttom_frame = tkinter.LabelFrame(width = (length/2 + 50), height = (100), font=("微软雅黑", 15, "bold"), text = '分段线性更改按钮')
 
         gray_frame.pack_propagate(0)
         fdxx_frame.pack_propagate(0)
         fdxx_buttom_frame.pack_propagate(0)
+        #frame根据内容自动调整大小,改为0关闭
+
         gray_frame.grid(row=0, column=1)
         fdxx_frame.grid(row=0, column=2)
         fdxx_buttom_frame.grid(row=1, column=2)
-        a=tkinter.Entry(fdxx_buttom_frame, text='a', show=None)
-        a.grid(row=0, column=0)
-        b=tkinter.Entry(fdxx_buttom_frame,show=None)
-        b.grid(row=0, column=1)
-        c=tkinter.Entry(fdxx_buttom_frame,show=None)
-        c.grid(row=1, column=0)
-        d=tkinter.Entry(fdxx_buttom_frame,show=None)
-        d.grid(row=1, column=1)
-        Mf=tkinter.Entry(fdxx_buttom_frame,show=None)
-        Mf.grid(row=2, column=0)
-        Mg=tkinter.Entry(fdxx_buttom_frame,show=None)
-        Mg.grid(row=2, column=1)
 
-        
         gray_label_img = tkinter.Label(gray_frame, width=length/2, height=hight/2, image = gray_img)
-        fdxx_label_img = tkinter.Label(fdxx_frame, width=length/2, height=hight/2, image = fdxx_img)
-            
-        gray_label_img.pack()
-        fdxx_label_img.pack()
+        reverse_label_img = tkinter.Label(fdxx_frame, width=length/2, height=hight/2, image = fdxx_img)
 
+        gray_label_img.pack()
+        reverse_label_img.pack()
+        fdxx100 = tkinter.Button(fdxx_buttom_frame, width=10, height=2, text='100', command=lambda : fdxx_change(new_obj, reverse_label_img, sw=100))
+        fdxx150 = tkinter.Button(fdxx_buttom_frame, width=10, height=2, text='150', command=lambda : fdxx_change(new_obj, reverse_label_img, sw=150))
+        fdxx200 = tkinter.Button(fdxx_buttom_frame, width=10, height=2, text='200', command=lambda : fdxx_change(new_obj, reverse_label_img, sw=200))
+
+        #fdxx100.grid(row=0, column=0)
+        fdxx100.grid(row=0, column=0)
+        fdxx150.grid(row=0, column=6)
+        fdxx200.grid(row=0, column=10)
         root.mainloop()
 
-def fdxx_ops(obj, a, b, c, d, Mf, Mg):
-        hight = obj.length
-        width = obj.width
-        origon_im = obj.im_obj.load()
-        fdxx_im = Image.new("RGB",(hight, width))
-        for i in range(0, hight):
-            for j in range(0, width):
-                if((origon_im[i, j][0] >= 0) & (origon_im[i, j][0] <= a-1)):
-                    temp = int(c*origon_im[i, j][0]/a)
-                    fdxx_im.putpixel((i, j), (temp, temp, temp))
-                    
-                elif((origon_im[i, j][0] >= a ) & (origon_im[i, j][0] <= b-1)):
-                    temp = int((d-c)/(b-a) * (origon_im[i, j][0]-a) + c)
-                    fdxx_im.putpixel((i, j), (temp, temp, temp))
-                    
-                else:
-                    temp = int((Mg-d)/(Mf-b)*(origon_im[i, j][0]-b)+d)
-                    fdxx_im.putpixel((i, j), (temp, temp, temp))
-        #fdxx_im.show()
-        return(fdxx_im)
-    
+def fdxx_change(new_obj, reverse_label_img, sw=100):
+    reverse_label = new_obj.fdxx(new_obj.toGray(), sw=sw)
+    #reverse_label = Image.open('./1 (1).jpg')
+    reverse_label2 = ImageTk.PhotoImage(reverse_label)
+    reverse_label_img.configure(image=reverse_label2)
+    NOTHING.pack()
 
 def ZFTJH(fileName = ''):
     pass
