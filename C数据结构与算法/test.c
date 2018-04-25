@@ -1,11 +1,15 @@
-
-#include<stdlib.h>
-#include<stdio.h>
-int main(void)
+void GetHeight(BT)
 {
-char a[99];
-gets(a);
-printf("%s\n", a);
+    int HL, HR, HMAX;
+    if (BT)
+    {
+        HL = GetHeight(BT->Left);
+        HR = GetHeight(BT->Right);
+        HAMX = HL > HR ? HL : HR;
+        return (HMAX + 1);
+    }
+    else
+        return 0;
 
 
 }

@@ -3,6 +3,7 @@ from PIL import ImageTk
 import numpy as np
 from matplotlib import pyplot as plt
 import tkinter
+import matplotlib.cm as cm
 import time
 
 class im_obj:
@@ -219,14 +220,116 @@ def fdxx_ops(obj, a, b, c, d, Mf, Mg):
     
 
 def ZFTJH(fileName = ''):
-    pass
+    image = Image.open(fileName).convert("L") 
+    image_array = np.array(image)
+    plt.subplot(2,2,1)
+    plt.hist(image_array.flatten(),256)
+    plt.subplot(2,2,2)
+    plt.imshow(image,cmap=cm.gray)
+    plt.axis("off")
+    plt.title("origon")
+    
+    a = zftjh_do(image_array)  #利用刚定义的直方图均衡化函数对图像进行均衡化处理
+    plt.subplot(2,2,3)
+    plt.hist(a[0].flatten(),256)
+    plt.subplot(2,2,4)
+    plt.imshow(Image.fromarray(a[0]),cmap=cm.gray)
+    plt.axis("off")
+    plt.title("jun heng hua")
+    
+    plt.show()
 
+def zftjh_do(image_array,image_bins=256):
+    # 将图像矩阵转化成直方图数据，返回元组(频数，直方图区间坐标)
+    image_array2,bins = np.histogram(image_array.flatten(),image_bins)
+    # 计算直方图的累积函数
+    cdf = image_array2.cumsum()
+    # 将累积函数转化到区间[0,255]
+    cdf = (255.0/cdf[-1])*cdf
+    # 原图像矩阵利用累积函数进行转化，插值过程
+    image2_array = np.interp(image_array.flatten(),bins[:-1],cdf)
+    # 返回均衡化后的图像矩阵和累积函数
+    return (image2_array.reshape(image_array.shape),cdf)
+
+def PYJX(fileName=''):
+    MOVE=500    #右移100像素
+    img = Image.open(fileName)
+    width, hight = img.size
+    
+    origon_array = np.array(img)
+    move_array = Image.new("RGB",(width, hight))
+    mirror_array = Image.new("RGB",(width, hight))
+    
+    for i in range(0, width):
+        for j in range(0, hight):
+            #if(i<MOVE):
+            #    move_array.putpixel((i, j), (0, 0, 0))   #剩下的直接填白
+            #else:
+            move_array.putpixel((i, j), tuple(origon_array[j][i-MOVE])) 
+    
+        
+    for i in range(0, width):
+        for j in range(0, hight):
+                mirror_array.putpixel((i, j), tuple(origon_array[j][width-1-i])) 
+       
+    plt.subplot(2,2,1)
+    plt.title("origon")
+    plt.axis("off")
+    plt.imshow(origon_array)
+    
+    plt.subplot(2,2,2)
+    plt.title("moved++"+str(MOVE))
+    plt.imshow(move_array)
+    
+    plt.subplot(2,2,3)
+    plt.title("mirror")
+    plt.axis("off")
+    plt.imshow(mirror_array)
+    
+    plt.show()
+    
+
+def FDSX(fileName=''):
+    img = Image.open(fileName)
+    width, hight = img.size
+    
+    origon_array = np.array(img)
+    small_array = Image.new("RGB",(width, hight))
+    big_array = Image.new("RGB",(int(width/2), int(hight/2)))
+    
+    for i in range(0, width):
+        for j in range(0, hight):
+            pass
+        #            big_array.putpixel((i, j), (int(origon_array[i][j][0]/2), int(origon_array[i][j][1]/2), int(origon_array[i][j][2]/2)))
+            
+    for i in range(0, int(width/2)):
+        for j in range(0, int(hight/2)):
+                big_array.putpixel((i, j), tuple(origon_array[int(j/2)][int(i/2)])) 
+       
+    plt.subplot(2,2,1)
+    plt.title("origon")
+    plt.axis("off")
+    plt.imshow(origon_array)
+    
+    plt.subplot(2,2,2)
+    plt.title("big")
+    plt.imshow(big_array)
+    
+    plt.subplot(2,2,3)
+    plt.title("small")
+    plt.axis("off")
+    plt.imshow(small_array)
+    
+    plt.show()
+    
+    
 if __name__ == '__main__':
         '''
         灰度图反转并对比显示
         '''
-        fileName = './lena.png'
+        fileName = './123.png'
 #        dis_gray_reverse(fileName)
-        FDXX(fileName)
-#        ZFDJH(fileName)
-
+#        FDXX(fileName)
+#        ZFTJH(fileName)
+#        PYJX(fileName)
+        FDSX(fileName)
