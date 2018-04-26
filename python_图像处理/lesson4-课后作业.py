@@ -327,9 +327,9 @@ if __name__ == '__main__':
         '''
         灰度图反转并对比显示
         '''
-        fileName = './123.png'
+        fileName = './lena.png'
 #        dis_gray_reverse(fileName)
 #        FDXX(fileName)
-#        ZFTJH(fileName)
-#        PYJX(fileName)
-        FDSX(fileName)
+ #       ZFTJH(fileName)
+ #       PYJX(fileName)
+#        FDSX(fileName)
