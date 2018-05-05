@@ -16,13 +16,6 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <widget class="QLabel" name="tips">
-      <property name="text">
-       <string>Tips</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <spacer name="verticalSpacer_2">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -40,7 +33,7 @@
       <item>
        <layout class="QHBoxLayout" name="img_MainLayout" stretch="0">
         <item>
-         <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0">
+         <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0">
           <item row="0" column="0">
            <widget class="QLabel" name="text_Origin">
             <property name="contextMenuPolicy">
@@ -271,11 +264,15 @@
     <property name="title">
      <string>文件</string>
     </property>
+    <addaction name="action_2"/>
+    <addaction name="action_3"/>
+    <addaction name="action"/>
    </widget>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="title_about">
     <property name="title">
      <string>关于</string>
     </property>
+    <addaction name="action_about"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -284,9 +281,34 @@
    </widget>
    <addaction name="menuwenjian"/>
    <addaction name="menu_2"/>
-   <addaction name="menu"/>
+   <addaction name="title_about"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actioninfo">
+   <property name="text">
+    <string>info</string>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="text">
+    <string>关于我们</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>打开(ctrl+o)</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>保存(ctrl+s)</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

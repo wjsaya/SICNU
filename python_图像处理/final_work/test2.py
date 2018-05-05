@@ -1,31 +1,49 @@
-from PyQt5.QtWidgets import QApplication, QLabel, QSlider  
-from PyQt5 import QtWidgets  
-from PyQt5.QtCore import Qt  
-from PyQt5.QtGui import QPixmap  
-  
-class SliderLabel(QtWidgets.QWidget):  
-    def __init__(self, parent= None):  
-        QtWidgets.QWidget.__init__(self)  
-          
-        self.setGeometry(300, 300, 500, 320)  
-        self.setWindowTitle('SliderLabel')  
-        self.slider = QSlider(Qt.Horizontal, self)  
-        self.slider.setFocusPolicy(Qt.NoFocus)  
-        self.slider.setGeometry(30, 40, 100, 30)  
-        self.slider.valueChanged.connect(self.changeValue)
-        self.label = QLabel(self)  
-        self.label.setPixmap(QPixmap('icons/1.png'))  
-        self.label.setGeometry(160, 40, 300, 250)  
-  
-          
-    def changeValue(self, value):  
-        pos = self.slider.value()
-        self.label.setText(str(pos))
-          
-  
-if __name__ == "__main__":  
-    import sys  
-    app = QApplication(sys.argv)  
-    qb = SliderLabel()  
-    qb.show()  
+import sys
+from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction, QMessageBox
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import pyqtSlot
+ 
+class App(QMainWindow):
+ 
+    def __init__(self):
+        super().__init__()
+        self.title = 'PyQt5 menu - pythonspot.com'
+        self.left = 10
+        self.top = 10
+        self.width = 640
+        self.height = 400
+        self.initUI()
+ 
+    def initUI(self):
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+ 
+        mainMenu = self.menuBar() 
+        fileMenu = mainMenu.addMenu('File')
+        editMenu = mainMenu.addMenu('Edit')
+        viewMenu = mainMenu.addMenu('View')
+        searchMenu = mainMenu.addMenu('Search')
+        toolsMenu = mainMenu.addMenu('Tools')
+        helpMenu = mainMenu.addMenu('Help')
+ 
+        exitButton = QAction(QIcon('exit24.png'), 'Exit', self)
+        exitButton.setShortcut('Ctrl+Q')
+        exitButton.setStatusTip('Exit application')
+        exitButton.triggered.connect(self.close)
+
+        helpMenu.triggered.connect(self.close)
+        fileMenu.addAction(exitButton)
+ 
+        self.show()
+    
+    def test(self):
+        QMessageBox.information(None, "提示",
+        "这是来自wjsaya(sayawj@163.com)的测试消息\n\n"
+        "支持使用\\n换行\n"
+        "调用方法: QtWidgets.QMessageBox.information"
+        )
+ 
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = App()
     sys.exit(app.exec_())
