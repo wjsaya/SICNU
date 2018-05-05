@@ -1,43 +1,31 @@
-import sys
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-
-class ImageView(QGraphicsView):
-	def __init__(self, parent=None, origPixmap=None):
-		"""
-		QGraphicsView that will show an image scaled to the current widget size
-		using events
-		"""
-		super(ImageView, self).__init__(parent)
-		self.origPixmap = origPixmap
-		QMetaObject.connectSlotsByName(self)
-	
-	def resizeEvent(self, event):
-		"""
-		Handle the resize event.
-		"""
-		size = event.size()
-		item =  self.items()[0]
-		
-		# using current pixmap after n-resizes would get really blurry image
-		#pixmap = item.pixmap()
-		pixmap = self.origPixmap
-		
-		pixmap = pixmap.scaled(size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-		self.centerOn(1.0, 1.0)
-		item.setPixmap(pixmap)
-
-
-app = QApplication(sys.argv)
-
-pic = QPixmap('./lena.png')
-grview = ImageView(origPixmap=pic)
-
-scene = QGraphicsScene()
-scene.addPixmap(pic)
-
-grview.setScene(scene)
-grview.show()
-
-sys.exit(app.exec_())
+from PyQt5.QtWidgets import QApplication, QLabel, QSlider  
+from PyQt5 import QtWidgets  
+from PyQt5.QtCore import Qt  
+from PyQt5.QtGui import QPixmap  
+  
+class SliderLabel(QtWidgets.QWidget):  
+    def __init__(self, parent= None):  
+        QtWidgets.QWidget.__init__(self)  
+          
+        self.setGeometry(300, 300, 500, 320)  
+        self.setWindowTitle('SliderLabel')  
+        self.slider = QSlider(Qt.Horizontal, self)  
+        self.slider.setFocusPolicy(Qt.NoFocus)  
+        self.slider.setGeometry(30, 40, 100, 30)  
+        self.slider.valueChanged.connect(self.changeValue)
+        self.label = QLabel(self)  
+        self.label.setPixmap(QPixmap('icons/1.png'))  
+        self.label.setGeometry(160, 40, 300, 250)  
+  
+          
+    def changeValue(self, value):  
+        pos = self.slider.value()
+        self.label.setText(str(pos))
+          
+  
+if __name__ == "__main__":  
+    import sys  
+    app = QApplication(sys.argv)  
+    qb = SliderLabel()  
+    qb.show()  
+    sys.exit(app.exec_())
