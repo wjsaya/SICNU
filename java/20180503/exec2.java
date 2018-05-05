@@ -64,38 +64,42 @@ class fsys {
         fsys result = new fsys(news, newx);
         return result;
     }
-
 }
 
 public class exec2 {
     public static void main(String[] args) {
         fsys sortList[];
-        sortList = new fsys[5];
-        for(int i=0; i<5 ; i++)
+        sortList = new fsys[10];
+
+        fsys newLi[] = new fsys[sortList.length];
+
+        for(int i=0; i<sortList.length ; i++)
             sortList[i] = new fsys(1.0+i, 1.0+i);
+        //待排序属组从小到大(1->length)
 
-    for(int i=0; i<5 ; i++)
-            System.out.print(sortList[i].getReal() + "+"+ sortList[i].getVirtual() + " ");
+        newLi = sort(sortList);
 
-        sort(sortList);
-
-        System.out.println("\n以上为排序前");
-        for(int i=0; i<5 ; i++)
-            System.out.print(sortList[i].getReal() + "+"+ sortList[i].getVirtual() + " ");
-        System.out.println("\n以上为排序后");
-
+        for(int i=0; i<sortList.length ; i++)
+            System.out.print(newLi[i].getReal() + "\t+\t"+ newLi[i].getVirtual() + "\n");
     }
 
-    static void sort(fsys sortList[]) 
+    static fsys[] sort(fsys inList[])
     {
+    //直接操作原数组,排序,不返回值
+       // int len = inList.length;
         int i, j;
         fsys temp;
-        double max_S, max_X;
-        int max = 0;
-        for(i=0; i<5 ; i++) 
+        double max_S;
+        fsys sortList[];
+
+        sortList = new fsys[inList.length];
+        for(i=0; i<inList.length; i++)
+            sortList[i] = inList[i];
+
+        for(i=0; i<inList.length ; i++)
         {
            max_S = sortList[i].getReal();
-           for(j=i; j<5; j++) 
+           for(j=i; j<inList.length ; j++) 
            {
                 if(max_S < sortList[j].getReal())
                 {
@@ -105,23 +109,6 @@ public class exec2 {
                 }
            }
         }
+        return sortList;
     }
-    
-    static void test1() {
-        fsys num1 = new fsys(1.0, 2.0);
-        fsys num2 = new fsys(3.0, 4.0);
-        
-        fsys new1 = num1.add(num2);
-        fsys new2 = num1.sub(num2);
-        fsys new3 = num1.pwn(num2);
-        fsys new4 = num1.mod(num2);
-
-        System.out.println("num1:\t"+num1.getReal()+" + i*"+num1.getVirtual());
-        System.out.println("num2:\t"+num2.getReal()+" + i*"+num2.getVirtual());
-        System.out.println("+:\t"+new1.getReal()+" + i*"+new1.getVirtual());
-        System.out.println("-:\t"+new2.getReal()+" + i*"+new2.getVirtual());
-        System.out.println("*:\t"+new3.getReal()+" + i*"+new3.getVirtual());
-        System.out.println("/:\t"+new4.getReal()+" + i*"+new4.getVirtual());
-    }
-
 }
