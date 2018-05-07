@@ -1,1 +1,2 @@
-slider_prev
+
+        #从写closeEvent,添加确认弹框

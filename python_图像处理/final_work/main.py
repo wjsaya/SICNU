@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-
 from PyQt5.QtCore import pyqtSlot
 from PyQt5 import QtGui
 import sys
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 
-from MainWindow import Ui_MainWindow
+from Ui_MainWindow import Ui_MainWindow
 
 from PIL import Image
 from PIL.ImageQt import ImageQt
@@ -18,17 +17,38 @@ class MainWindow(QtWidgets.QMainWindow,  Ui_MainWindow):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
         self.setupUi(self)
-        self.on_button_open_clicked()
-        
+        self.setWindowIcon(QtGui.QIcon('./icons/mainWindow.jpg'))
+        self.action_open.triggered.connect(self.on_button_open_clicked)
+        self.action_save.triggered.connect(self.on_button_save_clicked)
+        self.action_quit.triggered.connect(self.close)
         self.button_8.clicked.connect(self.close)
 
     def closeEvent(self, event): 
-        #从写closeEvent,添加确认弹框
-        reply = QtWidgets.QMessageBox.question(self, '!!!!!', '退出本软件?', QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No) 
-        if reply == QtWidgets.QMessageBox.Yes: 
-            event.accept() 
+        #重写closeEvent,添加确认弹框
+        if (isinstance(self.img_prev.pixmap(), QtGui.QPixmap)) is False:
+            #sys.exit() 
+            # 如果不用if嵌套,直接sys.exit()也可,但是if嵌套逻辑更清晰.
+            # 如果self.img_prev.pixmap()不是Qpixmap,那么img_prev标签则没有图片,那么直接同意closeEvent退出即可.
+            event.accept()
         else:
-            event.ignore()
+            checkMsgBox = QtWidgets.QMessageBox(self) 
+            checkMsgBox.setWindowTitle("退出?") 
+            checkMsgBox.setWindowIcon(QtGui.QIcon('./icons/quit.ico'))
+            savequitButton = checkMsgBox.addButton(self.tr("保存&退出"), QtWidgets.QMessageBox.ActionRole)
+            justquitButton = checkMsgBox.addButton(self.tr("直接退出"), QtWidgets.QMessageBox.ActionRole)
+            cancelButton = checkMsgBox.addButton("手滑了,取消",QtWidgets.QMessageBox.ActionRole)
+            checkMsgBox.setText(self.tr("对图片的修改还未保存,直接退出?"))
+            checkMsgBox.exec_()
+        
+            button = checkMsgBox.clickedButton()
+            if button == savequitButton:
+                self.on_button_save_clicked()
+                event.accept()
+            elif button == justquitButton:
+                event.accept()
+            elif button == cancelButton:
+                event.ignore()
+
 
     def imgsave(self, filename):
         try:
@@ -59,8 +79,6 @@ class MainWindow(QtWidgets.QMainWindow,  Ui_MainWindow):
             "我们是第X组\n"
             "组长:杨宗霖\n"
             "组员:王啸宇, 仇喆, 胡博\n")
-
-
         
     @pyqtSlot()
     def on_button_open_clicked(self): 
@@ -75,7 +93,7 @@ class MainWindow(QtWidgets.QMainWindow,  Ui_MainWindow):
         self.imgWidth, self.imgHight = im.width(), im.height()
         self.unit = im.width()/200
         self.img_origin.setPixmap(im)
-        self.prevOrigin = 0
+
 
     def on_slider_origin_valueChanged(self):
         value_now = (self.slider_origin.value()+1) * self.unit
@@ -83,30 +101,31 @@ class MainWindow(QtWidgets.QMainWindow,  Ui_MainWindow):
                           "\t原图当前尺寸：" + str(self.imgWidth - value_now) +
                           "X" + str(self.imgHight - value_now))
         im = QtGui.QPixmap(self.fileName[0]).scaled(self.imgWidth - value_now, self.imgHight - value_now, aspectRatioMode=QtCore.Qt.KeepAspectRatio)
-        self.statusBar().showMessage(str(type(im)))
         self.img_origin.setPixmap(im)
         
 
     def on_slider_prev_valueChanged(self):
-        if self.prevOrigin != self.img_prev.pixmap():
-            self.prevOrigin = self.img_prev.pixmap()
+        if 'prevDisplay' not in dir(self):
+            self.prevDisplay = self.img_prev.pixmap().copy()    #保存预览图最初样貌,scaled会调用
+            self.prevOrigin = self.prevDisplay.copy()
         else:
-            print("qqq")
+            self.prevDisplay = self.prevOrigin.copy()
 
         value_now = (self.slider_prev.value()+1) * self.unit
         self.statusBar().showMessage("预览图原尺寸：" + str(self.imgWidth) + "X" + str(self.imgHight) +
                           "\t预览图当前尺寸：" + str(self.imgWidth - value_now) +
                           "X" + str(self.imgHight - value_now))
         #缩放比例有点问题，待优化
-        self.prevOri = self.prevOrigin
-        self.statusBar().showMessage(str(type(self.prevOri)))
-        im = self.prevOri.scaled(self.imgWidth - value_now, self.imgHight - value_now, aspectRatioMode=QtCore.Qt.KeepAspectRatio)
+        im = self.prevDisplay.scaled(self.imgWidth - value_now, self.imgHight - value_now, aspectRatioMode=QtCore.Qt.KeepAspectRatio)
         self.img_prev.setPixmap(im)
 
-        
-        
     @pyqtSlot()
-    def on_button_save_clicked(self):
+    def on_button_save_clicked(self):      
+
+        QtWidgets.QMessageBox.information(None, "提示",
+            "保存图片为右边预览窗口的图片,包括图片大小都是\n"
+            "建议将图片缩放到所需尺寸后再保存\n")
+
         self.saveimg_name, self.saveimg_type = QtWidgets.QFileDialog.getSaveFileName(self,  
             "文件保存",
             "./",
