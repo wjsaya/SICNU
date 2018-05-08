@@ -76,9 +76,7 @@ class MainWindow(QtWidgets.QMainWindow,  Ui_MainWindow):
     def on_action_about_triggered(self): 
         self.statusBar().showMessage('关于我们')   ###############################################################3
         QtWidgets.QMessageBox.information(None, "关于我们",
-            "我们是第X组\n"
-            "组长:杨宗霖\n"
-            "组员:王啸宇, 仇喆, 胡博\n")
+            "第X组\n")
         
     @pyqtSlot()
     def on_button_open_clicked(self): 
