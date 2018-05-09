@@ -22,6 +22,7 @@ void InorderTraversal( BinTree BT )
         InorderTraversal( BT->Right);
     }
 }
+
 void PreorderTraversal( BinTree BT )
 //先序VLR
 {
@@ -43,36 +44,31 @@ void PostorderTraversal( BinTree BT )
     }
 }
 
-int IsEmpty_BinTree(BinTree *T)
-{
-    if(*T == NULL)
-        return 1;
-    else
-        return 0;
-}
 
 void LevelorderTraversal( BinTree BT )
 //层序
 {
-    int rear = 0;
+    if (BT == NULL) return;
+    BinTree q[100];
+    q[0] = BT;
+
     int front = 0;
-    if(!BT) return;
-    BinTree BinQueue[100];
-    BinTree tempNode;
-    if(!IsEmpty_BinTree(T))
+    int rear = 1;
+
+    while (front < rear)
     {
-        BinQueue[rear++] = T; 
-
-        while(front != rear)
+        int last = rear;
+        while (front < last)
         {
-            tempNode = BinQueue[front++];
-            if(!IsEmpty_BinTree(tempNode->Left))
-                BinQueue[rear++] = temoNode->Left;
+            printf(" %c", q[front]->Data);
 
-            if(!IsEmpty_BinTree(tempNode->Right))
-                BinQueue[rear++] = temoNode->Right;
+            if (q[front]->Left)
+                q[rear++] = q[front]->Left;
 
-            printf(" %c", tempNode->Data);
+            if (q[front]->Right)
+                q[rear++] = q[front]->Right;
+
+            ++front;
         }
     }
 }

@@ -79,7 +79,7 @@ class MainWindow(QtWidgets.QMainWindow,  Ui_MainWindow):
             "第X组\n")
         
     @pyqtSlot()
-    def on_button_open_clicked(self): 
+    def on_button_open_clicked(self):
         self.fileName = [None, '2']
         self.fileName = QtWidgets.QFileDialog.getOpenFileName(self,
 		    "打开图片",
@@ -149,9 +149,32 @@ class MainWindow(QtWidgets.QMainWindow,  Ui_MainWindow):
         
     @pyqtSlot()
     def on_button_3_clicked(self):
-        QtWidgets.QMessageBox.information(None, "Tips",
-            "要缩放图片?拖动图片下方的滑块试试\n")
+        if self.jhbh_widget.isHidden():
+            self.jhbh_widget.show()
+        else:
+            self.jhbh_widget.hide()
 
+    @pyqtSlot()
+    def on_pushButton_SF_clicked(self):
+        if self.slider_origin.isHidden():
+            self.statusBar().showMessage("要缩放图片?拖动图片下方的滑块试试")
+            self.slider_origin.show()
+            self.slider_prev.show()
+        else:
+            self.statusBar().showMessage("图片缩放滑块已关闭")
+            self.slider_origin.hide()
+            self.slider_prev.hide()
+            
+    @pyqtSlot()
+    def on_pushButton_PY_clicked(self):
+        if self.widget_PY.isHidden():
+            self.statusBar().showMessage("平移->On")
+            self.widget_PY.show()
+        else:
+            self.statusBar().showMessage("平移->Off")
+            self.widget_PY.hide()
+            
+        
     @pyqtSlot()
     def on_button_4_clicked(self):
         self.statusBar().showMessage("去噪 按钮按下")

@@ -1,33 +1,29 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from test1 import Ui_MainWindow
 
-class Example(QtWidgets.QDialog):
+class MainWindow(QtWidgets.QMainWindow,  Ui_MainWindow):
     def __init__(self, parent=None):
-        super(Example, self).__init__(parent)
-        self.slotCustom()
+        QtWidgets.QWidget.__init__(self, parent)
+        self.setupUi(self)
 
-    def slotCustom(self):    
-            customMsgBox=QtWidgets.QMessageBox(self)    
-            customMsgBox.setWindowTitle("Custom message box")    
-            lockButton=customMsgBox.addButton(self.tr("锁定"),    
-                                              QtWidgets.QMessageBox.ActionRole)    
-            unlockButton=customMsgBox.addButton(self.tr("解锁"),    
-                                                QtWidgets.QMessageBox.ActionRole)    
-            cancelButton=customMsgBox.addButton("cancel",QtWidgets.QMessageBox.ActionRole)    
-        
-            customMsgBox.setText(self.tr("这是一个自定义消息框!"))    
-            customMsgBox.exec_()    
-        
-            button=customMsgBox.clickedButton()    
-            if button==lockButton:    
-                self.label.setText("Custom MessageBox/Lock")    
-            elif button==unlockButton:    
-                self.label.setText("Custom MessageBox/Unlock")    
-            elif button==cancelButton:    
-                self.label.setText("Custom MessageBox/Cancel")    
+        #self.lay1.show()
 
+      # self.lay2.hide()
+      #  self.listWidget.hide()
+
+    def on_pu1_clicked(self):
+        self.listWidget.hide()
+        self.wi1.hide()
+        
+    def on_pu2_clicked(self):
+        self.listWidget.show()
+        self.wi1.show()
+        
+        
 if __name__ == "__main__":
+    app=0
     app = QtWidgets.QApplication(sys.argv)
-    ex = Example()
-    ex.show()
+    w = MainWindow()
+    w.show()
     sys.exit(app.exec_())
