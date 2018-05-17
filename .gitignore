@@ -18,3 +18,8 @@ build
 #vscode
 .vscode/*
 */.vscode/*
+
+
+#java
+*.class
+*/*.class
