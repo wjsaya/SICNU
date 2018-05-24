@@ -1,70 +1,66 @@
 #include<stdio.h>
-int N;
-int i=0;
-int count=0;
-int arrH[30], arrZ[30], arrC[30];
+#define MAXSIZE 30
+struct TNode {
+    int Data;
+    struct TNode *Left;
+    struct TNode *Right;
+};
 
-int getlen(int *p)
-{
-    int len=0;
-    int i=0;
-    while(p[i++]!='\0')
-        len++;
-    return len;
-}
-
-void sort(int *pH, int *pZ)
-{
-//传入后序和中序的排列，取出当前根。分两部分递归
-//后序直接去尾
-//中序稍微麻烦点
-    int arrH[30], arrZ[30];
-    arrC[count++] = pH[getlen(pH)-1];    //层序结果
-    printf("root=%d\n", arrC[count-1]);
-
-    for(i=0; i<N; i++) {
-        if(arrC[count-1] == pZ[i])
-        {
+struct TNode *CreateBinTree(int n, int sh[], int sz[]) {
+//n为0，那么节点个数为0.
+    int tag=0;
+    if (n == 0)
+        return NULL;
+//n不为0，则有新的节点
+    struct TNode *BT = (struct TNode *)malloc(sizeof(struct TNode));
+//取出后序遍历的最后一个值，作为当前新节点的Data值。
+    BT->Data = sh[n-1];
+//找到后序遍历最后一个值在中序遍历数组中的位置，即为当前节点左子树的节点个数。
+    for(tag=0; tag<n; tag++) {
+        if(BT->Data == sz[tag]) {
             break;
         }
-        arrZ[i] = pZ[i];
     }
-    for(; i<getlen(pH)-1; i++)
-        arrZ[i] = pZ[i+1];
-
-    for(i=0; i<getlen(pH)-1; i++)
-        arrH[i] = pH[i];
-    
-    sort(arrH, arrZ);
-/*
- * for(i=0; i<N; i++)
-        printf("len(pH)=%d\tZ=%d\tH=%d\n",getlen(pH)-1, arrZ[i], arrH[i]);
-        */
+    BT->Left = CreateBinTree(tag, sh, sz);
+    BT->Right = CreateBinTree(n-tag-1, sh+tag, sz+tag+1);
+    return BT;
 }
 
-int main(void)
+void putBinTree(struct TNode *BT) {
+    struct TNode *s[MAXSIZE];
+    int t = 0, k = 1;
+    s[t] = BT;
+    while(t != k) {
+        if(!t) {
+            printf("%d", s[t]->Data); //第一个数字不加空格 
+        }
+        else {
+            printf(" %d", s[t]->Data); //非第一个前面加空格，这样保证了最后不会有多于的空格 
+        }
+        if(s[t]->Left) {
+            s[k] = s[t]->Left;
+            k = (k+1) % MAXSIZE;
+        }
+        if(s[t]->Right) {
+            s[k] = s[t]->Right;
+            k = (k+1) % MAXSIZE;
+        }
+        t = (t+1) % MAXSIZE;
+    }
+}
+
+int main()
 {
-    scanf("%d", &N);
-    for(i=0; i<N; i++)
-        scanf("%d", &arrH[i]);
-
-    for(i=0; i<N; i++)
-        scanf("%d", &arrZ[i]);
-
-    sort(arrH, arrZ);
-//    getlen(arrH);
+    int i, n;
+    int sh[MAXSIZE], sz[MAXSIZE];
+    scanf("%d", &n);
+    for(i = 0; i < n; i ++) {
+        scanf("%d", &sh[i]);
+    }   
+    for(i = 0; i < n; i ++) {
+        scanf("%d", &sz[i]);
+    }   
+    struct TNode *BT = CreateBinTree(n, sh, sz);
+    putBinTree(BT);
     return 0;
-
-/*
-    for(i=0; i<N; i++)
-    {
-        if(arrZ[i] == arrC[0])
-            break;
-        printf("%d ", arrZ[i]);
-    }
-    printf("\n");
-    for(;i<N; i++)
-        printf("%d ", arrZ[i]);
-*/
 }
-
