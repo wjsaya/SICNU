@@ -1,0 +1,18 @@
+动物借口
+    run方法
+
+鸟类
+    run 一只鸟在飞
+
+鱼类
+    run 一条鱼在游
+
+测试类TestCls
+    test方法
+        void test(animal a)
+        a变量调用run方法
+
+主类
+    建TestCls对象，与对象，鸟对象，作为实参传给test方法
+
+

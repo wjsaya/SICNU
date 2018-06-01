@@ -6,13 +6,6 @@ struct TNode {
     struct TNode *Right;
 };
 
-void p(char in[]) {
-    int i=0;
-    while(in[i] !='\0')
-        printf("%c ", in[i]);
-    printf("\n");
-}
-
 struct TNode *CreateBinTree(int n, int sh[], int sz[]) {
 //n为0，那么节点个数为0.
     int tag=0;
@@ -33,6 +26,13 @@ struct TNode *CreateBinTree(int n, int sh[], int sz[]) {
     return BT;
 }
 
+void p(char in[]) {
+    int i=0;
+    while(in[i] !='\0')
+        printf("%c ", in[i]);
+    printf("\n");
+}
+
 int main()
 {
     int i;
@@ -40,13 +40,13 @@ int main()
     char IN;
     int JU=0;
     for(i=0;scanf("%c", &IN);i++) {
-        if(IN == " ")
-            JU = 1;
-
-        if(JU == 0)
+        if(IN == ' ')
+            break;
+//            JU = 1;
+//        if(JU == 0)
             sh[i] = IN;
-        else
-            sz[i] = IN;
+//        else
+//            sz[i] = IN;
     }
 
     p(sh);
