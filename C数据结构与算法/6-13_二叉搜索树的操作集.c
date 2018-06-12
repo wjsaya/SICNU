@@ -78,10 +78,8 @@ BinTree Delete( BinTree BST, ElementType X )
 {
 //    函数Delete将X从二叉搜索树BST中删除，并返回结果树的根结点指针；如果X不在树中，则打印一行Not Found并返回原树的根结点指针；
     Position Tmp;
-//    if (Find(BST, X) == NULL) {
-    if(!BST) {
-        printf("Not Found\n");
-    }
+    printf("IN DELETE:"); InorderTraversal(BST); printf("\n");
+    if(!BST) printf("DELETE Not Found\n");
     else {
         if(X < BST->Data)
             BST->Left = Delete(BST->Left, X);
@@ -90,20 +88,19 @@ BinTree Delete( BinTree BST, ElementType X )
         else {
             if(BST->Left && BST->Right) {
             //有左右节点
-            Tmp = FindMin(BST->Right);
-            BST->Data = Tmp->Data;
-            BST->Right = Delete(BST->Right, BST->Data);
+                Tmp = FindMin(BST->Right);
+                BST->Data = Tmp->Data;
+                BST->Right = Delete(BST->Right, BST->Data);
             }
-            else{
+            else {
                 Tmp = BST;
-                if(BST->Left == NULL)
-                    BST = BST->Right;
-                else if(BST->Right == NULL)
-                    BST = BST->Left;
+                if(!BST->Left) BST = BST->Right;
+                else if(!BST->Right) BST = BST->Left;
                 free(Tmp);
             }
         }
     }
+    return BST;
 }
 
 Position Find( BinTree BST, ElementType X )
