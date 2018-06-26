@@ -280,7 +280,7 @@ if __name__ == '__main__':
 #        gethist(fileName)
         gray_im = toGray(fileName)
 #        reverse(gray_im)
-#        T = otsu(fileName)
-#        do2(T, fileName)
-        fdxx(gray_im)
+        T = otsu(fileName)
+        do2(T, fileName)
+#        fdxx(gray_im)
 

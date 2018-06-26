@@ -328,6 +328,9 @@ if __name__ == '__main__':
         灰度图反转并对比显示
         '''
         fileName = './lena.png'
+        a = im_obj(fileName)
+        aa = a.getGray()
+        aa.show()
 #        dis_gray_reverse(fileName)
 #        FDXX(fileName)
  #       ZFTJH(fileName)
