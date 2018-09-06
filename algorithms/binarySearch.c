@@ -1,5 +1,5 @@
 #include<stdio.h>
-
+// 二分查找
 int erfen(int left, int right, int list[]) {
 
 
