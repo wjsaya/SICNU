@@ -24,3 +24,8 @@ build
 #java
 *.class
 */*.class
+
+
+#c
+*.out
+*/*.out
