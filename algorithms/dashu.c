@@ -34,7 +34,7 @@ int a2ilist(char in[], int out[]) {
   (18)(25)(8)  <---- 这里就是相对位的和，还没有累加进位 
 */
 int main(void) {
-    char multiplier[] = {"56345"};
+    char multiplier[] = {"12345"};
     char factor[] = {"123"};
     int intmult[99];
     int intfac[99];
@@ -73,12 +73,22 @@ int main(void) {
             }
     }
 
-    for(i=(lenmult+lenfac); i>=0; i--) // from low to high
+    
+    
+    i=(lenmult+lenfac);
+    while(1)
+    {
+        if(re[i] != 0)
+            break;
+        i--;
+    }
+
+    for(; i>=0; i--) // from low to high
     {
             printf("%d", re[i]);
     }
-    
 }
+
 
 
 
