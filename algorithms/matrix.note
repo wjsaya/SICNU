@@ -1,0 +1,13 @@
+进入matrix（a, b, c, d）   C=A*B
+	d <= 2
+		直接c = a * b						d*d的方阵
+		
+	d > 2
+		ab拆分为各4个，共8个				d/2 * d/2 方阵
+		
+			C11 = 进入matrix( A1*B1
+			C12 = 进入matrix( A2*B2
+			C13 = 进入matrix( A3*B3
+			C14 = 进入matrix( A4*B4
+			
+			合并4个C1*为一个C				d * d 的方阵
