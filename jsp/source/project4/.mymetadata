@@ -1,13 +1,26 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+>>>>>>> 3befb87a919bfe3df76d80ffe6e5b7194007fbc0
 <project-module
   type="WEB"
   name="project4"
   id="myeclipse.1538100819519"
   context-root="/project4"
   j2ee-spec="5.0"
+<<<<<<< HEAD
   archive="project4.war">
   <attributes>
     <attribute name="webrootdir" value="WebRoot" />
   </attributes>
 </project-module>
 
+=======
+  archive="project4.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
+>>>>>>> 3befb87a919bfe3df76d80ffe6e5b7194007fbc0
