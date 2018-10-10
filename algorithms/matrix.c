@@ -1,10 +1,11 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<math.h>
 #define MAXLEN 64
 
 void pr(int in[MAXLEN][MAXLEN], int len)
 {
-//	Êä³ö·½ÕóÄÚÈİ 
+//	è¾“å‡ºæ–¹é˜µå†…å®¹ 
     int x, y;
         printf("\n{\n");
     for(x=0; x<len; x++)
@@ -21,7 +22,7 @@ void pr(int in[MAXLEN][MAXLEN], int len)
 
 
 void split(int a[MAXLEN][MAXLEN], int A11[MAXLEN][MAXLEN], int A12[MAXLEN][MAXLEN], int A21[MAXLEN][MAXLEN], int A22[MAXLEN][MAXLEN], int lena) {
-//	´ó·½Õó·Ö¸îÎªËÄ²¿·Ö 
+//	å¤§æ–¹é˜µåˆ†å‰²ä¸ºå››éƒ¨åˆ† 
 		int newlen = lena / 2;
 		int i, j;
                 for(i=0; i<newlen; i++) {
@@ -57,7 +58,7 @@ void split(int a[MAXLEN][MAXLEN], int A11[MAXLEN][MAXLEN], int A12[MAXLEN][MAXLE
 
 void multiply(int re[MAXLEN][MAXLEN], int A[MAXLEN][MAXLEN], int B[MAXLEN][MAXLEN]) {
 /*
-2½×·½ÕóÇó³Ë»ı 
+2é˜¶æ–¹é˜µæ±‚ä¹˜ç§¯ 
 a[00] b[01]			e[00] f[01]
 c[10] d[11]			g[10] h[11]
 
@@ -73,7 +74,7 @@ ce+dg[10]			cf+dh[11]
 
 void add(int re[MAXLEN][MAXLEN], int A[MAXLEN][MAXLEN], int B[MAXLEN][MAXLEN], int len) {
 /*
-Á½¸ö2½×·½ÕóÇóºÍ 
+ä¸¤ä¸ª2é˜¶æ–¹é˜µæ±‚å’Œ 
 a[00] b[01]			e[00] f[01]
 c[10] d[11]			g[10] h[11]
 
@@ -96,7 +97,7 @@ c+g[10]			d+h[11]
 
 
 void stubid(int c[MAXLEN][MAXLEN], int A[MAXLEN][MAXLEN], int B[MAXLEN][MAXLEN], int len) {
-//	ÊÖËã 
+//	æ‰‹ç®— 
     int x, y, z;
         for(x=0; x<len; x++)
         {
@@ -115,7 +116,7 @@ void stubid(int c[MAXLEN][MAXLEN], int A[MAXLEN][MAXLEN], int B[MAXLEN][MAXLEN],
 
 void merge(int re[MAXLEN][MAXLEN], int C11[MAXLEN][MAXLEN], int C12[MAXLEN][MAXLEN], int C21[MAXLEN][MAXLEN], int C22[MAXLEN][MAXLEN], int len) {
 /*
-ºÏ²¢C11, C12, C21, C22µ½c 
+åˆå¹¶C11, C12, C21, C22åˆ°c 
 a[00] b[01]
 c[10] d[11]
 
@@ -161,14 +162,14 @@ void matrix(int c[MAXLEN][MAXLEN], int a[MAXLEN][MAXLEN], int b[MAXLEN][MAXLEN],
 //        printf("\nlena = %d, lena = %d\n", lena, lena);
         
         if ((lena <= 2) || (lena <= 2)) {
-//        	Ğ¡ÓÚµÈÓÚ2Ê±£¬Ö±½Ó°ÑÁ½¸ö¾ØÕóÏà³Ë¼´¿É 
+//        	å°äºç­‰äº2æ—¶ï¼Œç›´æ¥æŠŠä¸¤ä¸ªçŸ©é˜µç›¸ä¹˜å³å¯ 
 //                pr(a, lena);
 //                pr(b, lena);
 				multiply(c, a, b);
         }
         
         else {
-//        	³¤¶È´óÓÚ2£¬ ·Ö¸îAB£¬µİ¹éÇó³Ë»ı 
+//        	é•¿åº¦å¤§äº2ï¼Œ åˆ†å‰²ABï¼Œé€’å½’æ±‚ä¹˜ç§¯ 
                 int newi=0, newj=0;
                 int newlen = lena / 2;
                 int A11[MAXLEN][MAXLEN];
@@ -189,32 +190,30 @@ void matrix(int c[MAXLEN][MAXLEN], int a[MAXLEN][MAXLEN], int b[MAXLEN][MAXLEN],
                 split(a, A11, A12, A21, A22, lena);
                 split(b, B11, B12, B21, B22, lena);
                 
-				
-				int SUM_TEMP1[MAXLEN][MAXLEN];
-				int SUM_TEMP2[MAXLEN][MAXLEN];
-				
-				matrix(SUM_TEMP1, A11, B11, newlen);
-				matrix(SUM_TEMP2, A12, B21, newlen);
-				add(C11, SUM_TEMP1, SUM_TEMP2, newlen);
-				
-				
+                int SUM_TEMP1[MAXLEN][MAXLEN];
+                int SUM_TEMP2[MAXLEN][MAXLEN];
+                    
+                matrix(SUM_TEMP1, A11, B11, newlen);
+                matrix(SUM_TEMP2, A12, B21, newlen);
+                add(C11, SUM_TEMP1, SUM_TEMP2, newlen);
+                        
+                            
 //				memset(SUM_TEMP1, 0, sizeof(SUM_TEMP1));
 //				memset(SUM_TEMP2, 0, sizeof(SUM_TEMP2));
-//				ÏÖÔÚ¾ØÕó²»Ò»¶¨Ğ¡ÓÚ2£¬²»ÄÜÖ±½Ó¼Ó£¿£¿£¿ 
-				
-				matrix(SUM_TEMP1, A11, B12, newlen);
-				matrix(SUM_TEMP2, A12, B22, newlen);
-        		add(C12, SUM_TEMP1, SUM_TEMP2, newlen);
-				
-				matrix(SUM_TEMP1, A21, B11, newlen);
-				matrix(SUM_TEMP2, A22, B21, newlen);
-        		add(C21, SUM_TEMP1, SUM_TEMP2, newlen);
-				
-				matrix(SUM_TEMP1, A21, B12, newlen);
-				matrix(SUM_TEMP2, A22, B22, newlen);
-        		add(C22, SUM_TEMP1, SUM_TEMP2, newlen);		
-				
-//				
+//				ç°åœ¨çŸ©é˜µä¸ä¸€å®šå°äº2ï¼Œä¸èƒ½ç›´æ¥åŠ ï¼Ÿï¼Ÿï¼Ÿ 
+                            
+                    matrix(SUM_TEMP1, A11, B12, newlen);
+                    matrix(SUM_TEMP2, A12, B22, newlen);
+                    add(C12, SUM_TEMP1, SUM_TEMP2, newlen);
+                            
+                    matrix(SUM_TEMP1, A21, B11, newlen);
+                    matrix(SUM_TEMP2, A22, B21, newlen);
+                    add(C21, SUM_TEMP1, SUM_TEMP2, newlen);
+                            
+                    matrix(SUM_TEMP1, A21, B12, newlen);
+                    matrix(SUM_TEMP2, A22, B22, newlen);
+                    add(C22, SUM_TEMP1, SUM_TEMP2, newlen);		
+//
 //				printf("C11 = ");
 //				pr(C11, newlen);
 //				printf("C12 = ");
@@ -232,12 +231,12 @@ void matrix(int c[MAXLEN][MAXLEN], int a[MAXLEN][MAXLEN], int b[MAXLEN][MAXLEN],
 
 int main(void)
 {
-	int i, j;
+    int i, j;
     int a[MAXLEN][MAXLEN];
     int b[MAXLEN][MAXLEN];
     int c[MAXLEN][MAXLEN];
     int len;
-    printf("ÊäÈë¾ØÕó³ß´ç£º");
+    printf("è¾“å…¥çŸ©é˜µå°ºå¯¸ï¼š");
     scanf("%d", &len);
     for(i=0; i<len; i++) {
     	for(j=0; j<len; j++) {
