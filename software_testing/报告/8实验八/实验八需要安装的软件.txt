@@ -1,0 +1,4 @@
+Java:jdk-7u5-windows-i586(可用)或jdk-7u5-windows-x64
+MyEclipse 8.5
+sqlserver:SQLEXPRWT_x86_CHS.exe,安装sqlserver之前需要先安装.net(dotnetfx35.exe)
+navicat:navicat112_premium_cs_x86.exe及PatchNavicat.exe
